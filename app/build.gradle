@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+  compileSdkVersion versions.COMPILE_SDK_VERSION
+  buildToolsVersion versions.BUILD_TOOLS_VERSION
+  defaultConfig {
+    applicationId "io.github.fixerteam.moviecheck"
+    minSdkVersion versions.MIN_SDK_VERSION
+    targetSdkVersion versions.TARGET_SDK_VERSION
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
+    buildConfigField "String", "API_KEY", "$api_key"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+  }
+}
+
+dependencies {
+  compile depends.KOTLIN_STDLIB
+
+  compile depends.ANDROID_APPCOMPAT_V7
+  compile depends.ANDROID_RECYCLER_VIEW
+  compile depends.ANDROID_DESIGN
+
+  compile depends.ANKO_SDK15
+  compile depends.ANKO_SUPPORT_V4
+  compile depends.ANKO_SUPPORT_V7
+
+  testCompile depends.JUNIT
+  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  })
+}
