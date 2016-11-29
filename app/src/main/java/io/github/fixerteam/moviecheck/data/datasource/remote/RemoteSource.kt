@@ -7,7 +7,7 @@ import io.github.fixerteam.moviecheck.data.datasource.DataSource
 import org.json.JSONObject
 import java.net.URL
 
-class RemoteSource : DataSource {
+object RemoteSource : DataSource {
 
   override fun getPopularMovies(): List<Movie> {
     val response = URL("${API_URL}movie/popular?api_key=$API_KEY&language=ru-RU").readText()
