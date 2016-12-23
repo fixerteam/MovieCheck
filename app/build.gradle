@@ -46,6 +46,9 @@ dependencies {
   compile depends.ANKO_SDK15
   compile depends.ANKO_SUPPORT_V4
   compile depends.ANKO_SUPPORT_V7
+  compile depends.ANKO_CARDVIEW_V7
+  compile depends.ANKO_RECYCLERVIEW_V7
+  compile depends.ANKO_DESIGN_V7
 
   compile depends.RX_JAVA
   compile depends.RX_ANDROID
@@ -56,6 +59,7 @@ dependencies {
   compile depends.JAVAX_INJECT
 
   compile depends.GLIDE
+  compile depends.GLIDE_OK_HTTP
 
   compile depends.RETROFIT
   compile depends.RETROFIT_JACKSON_CONVERTER

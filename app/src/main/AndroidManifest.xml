@@ -17,6 +17,10 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+
+    <meta-data
+      android:name="io.github.fixerteam.moviecheck.util.GlideConfig"
+      android:value="GlideModule" />
   </application>
 
 </manifest>
