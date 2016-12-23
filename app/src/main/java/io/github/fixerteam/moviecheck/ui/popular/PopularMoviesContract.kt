@@ -1,6 +1,6 @@
 package io.github.fixerteam.moviecheck.ui.popular
 
-import io.github.fixerteam.moviecheck.data.Movie
+import io.github.fixerteam.moviecheck.domain.pojo.Movie
 import io.github.fixerteam.moviecheck.ui.base.mvp.BaseView
 
 interface PopularMoviesContract {

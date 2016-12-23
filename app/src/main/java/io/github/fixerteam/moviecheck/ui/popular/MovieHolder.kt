@@ -3,7 +3,7 @@ package io.github.fixerteam.moviecheck.ui.popular
 import android.view.ViewGroup
 import android.widget.TextView
 import io.github.fixerteam.moviecheck.R
-import io.github.fixerteam.moviecheck.data.Movie
+import io.github.fixerteam.moviecheck.domain.pojo.Movie
 import io.github.fixerteam.moviecheck.ui.base.adapter.RecyclerHolder
 import org.jetbrains.anko.find
 

@@ -1,9 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'realm-android'
 
 android {
   compileSdkVersion versions.COMPILE_SDK_VERSION
   buildToolsVersion versions.BUILD_TOOLS_VERSION
+
   defaultConfig {
     applicationId "io.github.fixerteam.moviecheck"
     minSdkVersion versions.MIN_SDK_VERSION
@@ -23,6 +25,15 @@ android {
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
   }
+  packagingOptions {
+    exclude 'META-INF/services/javax.annotation.processing.Processor'
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/NOTICE'
+  }
+}
+
+kapt {
+  generateStubs = true
 }
 
 dependencies {
@@ -35,6 +46,23 @@ dependencies {
   compile depends.ANKO_SDK15
   compile depends.ANKO_SUPPORT_V4
   compile depends.ANKO_SUPPORT_V7
+
+  compile depends.RX_JAVA
+  compile depends.RX_ANDROID
+
+  compile depends.DAGGER
+  kapt depends.DAGGER_COMPILER
+  provided depends.JAVAX_ANNOTATION
+  compile depends.JAVAX_INJECT
+
+  compile depends.GLIDE
+
+  compile depends.RETROFIT
+  compile depends.RETROFIT_JACKSON_CONVERTER
+  compile depends.RETROFIT_RX_JAVA_ADAPTER
+
+  compile depends.OK_HTTP
+  compile depends.OK_HTTP_LOGS
 
   testCompile depends.JUNIT
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
