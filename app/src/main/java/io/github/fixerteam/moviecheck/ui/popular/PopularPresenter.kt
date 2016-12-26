@@ -8,6 +8,10 @@ import io.github.fixerteam.moviecheck.ui.popular.PopularMoviesContract.View
 
 class PopularPresenter(private val interactor: MovieInteractor) : BasePresenter<Movie, View<Movie>>(), Presenter {
 
+  fun init() {
+
+  }
+
   override fun onStart() {
     doIfViewReady { showLoading() }
     addSubscription(interactor.getPopular()

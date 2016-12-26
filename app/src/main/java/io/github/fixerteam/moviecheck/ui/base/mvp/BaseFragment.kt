@@ -16,6 +16,7 @@ abstract class BaseFragment : Fragment() {
   override fun onCreate(savedInstanceState: Bundle?) {
     injectDependencies()
     super.onCreate(savedInstanceState)
+    retainInstance = true
   }
 
   override fun onDetach() {

@@ -11,14 +11,30 @@ import javax.inject.Inject
 
 class PopularFragment : ListFragment<Movie, MovieHolder>(), PopularMoviesContract.View<Movie> {
 
+  companion object {
+    fun newInstance() = PopularFragment()
+  }
+
   @Inject lateinit var presenter: PopularPresenter
 
   override fun getViewHolder(parent: ViewGroup) = MovieHolder(parent)
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
     presenter.attachView(this)
     presenter.onStart()
+  }
+
+  override fun onStop() {
+    super.onStop()
+  }
+
+  override fun onStart() {
+    super.onStart()
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
   }
 
   override fun getPresenter(): BasePresenter<*, *>? = presenter
