@@ -1,7 +1,7 @@
 package io.github.fixerteam.moviecheck.ui.popular
 
-import io.github.fixerteam.moviecheck.domain.pojo.Movie
 import io.github.fixerteam.moviecheck.domain.MovieInteractor
+import io.github.fixerteam.moviecheck.domain.pojo.Movie
 import io.github.fixerteam.moviecheck.ui.base.mvp.BasePresenter
 import io.github.fixerteam.moviecheck.ui.popular.PopularMoviesContract.Presenter
 import io.github.fixerteam.moviecheck.ui.popular.PopularMoviesContract.View

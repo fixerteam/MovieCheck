@@ -2,6 +2,8 @@ package io.github.fixerteam.moviecheck.domain.pojo
 
 import android.os.Parcel
 import android.os.Parcelable
+import io.github.fixerteam.moviecheck.data.datasource.local.local_model.MovieType
+import io.github.fixerteam.moviecheck.data.datasource.local.local_model.RealmMovie
 import java.util.*
 
 class Movie() : Parcelable {
@@ -21,7 +23,7 @@ class Movie() : Parcelable {
   var video: Boolean = false
   var voteAverage: Double = 0.0
   var favored = false
-  var type: Type? = null
+  var type: MovieType? = null
 
   companion object {
     val CREATOR: Parcelable.Creator<Movie> = object : Parcelable.Creator<Movie> {
@@ -30,7 +32,34 @@ class Movie() : Parcelable {
     }
   }
 
-  constructor(source: Parcel) : this(){
+  constructor(realmMovie: RealmMovie) : this() {
+    this.id = realmMovie.id
+    this.posterPath = realmMovie.posterPath
+    this.adult = realmMovie.adult
+    this.overview = realmMovie.overview
+    this.releaseDate = realmMovie.releaseDate
+    this.originalTitle = realmMovie.originalTitle
+    this.originalLanguage = realmMovie.originalLanguage
+    this.title = realmMovie.title
+    this.backdropPath = realmMovie.backdropPath
+    this.popularity = realmMovie.popularity
+    this.voteCount = realmMovie.voteCount
+    this.video = realmMovie.video
+    this.voteAverage = realmMovie.voteAverage
+    this.favored = realmMovie.favored
+    if (realmMovie.type == null) {
+      this.type = null
+    } else {
+      this.type =  MovieType.valueOf(realmMovie.type!!.toUpperCase())
+    }
+
+    // deep copy of genre ids
+    this.genreIds = ArrayList()
+    realmMovie.genreIds.toList().forEach { (genreIds as ArrayList<Int>).add(it.id) }
+  }
+  
+
+  constructor(source: Parcel) : this() {
     this.posterPath = source.readString()
     this.adult = source.readByte().toInt() != 0
     this.overview = source.readString()
@@ -47,7 +76,7 @@ class Movie() : Parcelable {
     this.video = source.readByte().toInt() != 0
     this.voteAverage = source.readDouble()
     this.favored = source.readByte().toInt() != 0
-    this.type = Type.valueOf(source.readString())
+    this.type = MovieType.valueOf(source.readString())
   }
 
   override fun describeContents() = 0
@@ -76,9 +105,5 @@ class Movie() : Parcelable {
     var totalPages: Int = 0
     var totalResults: Int = 0
     var results: List<Movie> = emptyList()
-  }
-
-  enum class Type {
-    POPULAR, LATEST, TOP_RATED
   }
 }
