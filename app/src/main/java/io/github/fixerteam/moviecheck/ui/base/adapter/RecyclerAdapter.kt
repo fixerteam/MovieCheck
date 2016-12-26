@@ -2,6 +2,7 @@ package io.github.fixerteam.moviecheck.ui.base.adapter
 
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.view.ViewGroup
 import io.github.fixerteam.moviecheck.util.inflate
 import java.util.*
@@ -28,8 +29,11 @@ abstract class RecyclerAdapter<in T, VH : RecyclerHolder<T>> : RecyclerView.Adap
   }
 }
 
-abstract class RecyclerHolder<in T>(parent: ViewGroup, @LayoutRes layout: Int) :
-    RecyclerView.ViewHolder(parent.inflate(layout)) {
+abstract class RecyclerHolder<in T> : RecyclerView.ViewHolder {
+
+  constructor(view: View) : super(view)
+
+  constructor(parent: ViewGroup, @LayoutRes layout: Int) : super(parent.inflate(layout))
 
   abstract fun bind(item: T)
 }

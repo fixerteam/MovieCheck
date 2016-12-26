@@ -15,7 +15,7 @@ class PopularFragment : ListFragment<Movie, MovieHolder>(), PopularMoviesContrac
 
   override fun getViewHolder(parent: ViewGroup) = MovieHolder(parent)
 
-  override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     presenter.attachView(this)
     presenter.onStart()

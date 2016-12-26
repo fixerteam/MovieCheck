@@ -9,10 +9,9 @@ import io.github.fixerteam.moviecheck.di.HasComponent
 
 abstract class BaseFragment : Fragment() {
 
-  protected abstract fun getLayout(): Int
+  protected abstract fun getLayout(): View
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-      inflater.inflate(getLayout(), container, false)
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) = getLayout()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     injectDependencies()
