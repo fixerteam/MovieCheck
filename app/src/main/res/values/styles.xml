@@ -8,4 +8,28 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
+
+  <style name="FavoriteButton" parent="Widget.AppCompat.Light.ActionButton">
+    <item name="android:layout_height">@dimen/favorite_button_size</item>
+    <item name="android:layout_width">@dimen/favorite_button_size</item>
+    <item name="android:src">@drawable/selector_favorite_button</item>
+    <item name="android:scaleType">fitCenter</item>
+  </style>
+
+  <style name="MovieDetailPlayImage">
+    <item name="android:layout_gravity">center</item>
+  </style>
+
+  <style name="MovieDetailAnchor">
+    <item name="android:layout_alignTop">@id/movie_cover_container</item>
+    <item name="android:layout_alignBottom">@id/movie_cover_container</item>
+  </style>
+
+  <style name="MovieDetailSectionHeader">
+    <item name="android:textSize">@dimen/text_size_xlarge</item>
+    <item name="android:textColor">@color/theme_primary</item>
+    <item name="android:paddingBottom">8dp</item>
+    <!--<item name="android:background">@drawable/movie_detail_section_separator</item>-->
+  </style>
+
 </resources>

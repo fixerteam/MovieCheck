@@ -14,8 +14,8 @@ interface Api {
   fun discoverMovies(@Path("type") movieType: String): Observable<Movie.Response>
 
   @GET("movie/{id}/videos")
-  fun videos(@Path("id") movieId: Long): Observable<Video.Response>
+  fun videos(@Path("id") movieId: Int): Observable<Video.Response>
 
   @GET("movie/{id}/reviews")
-  fun reviews(@Path("id") movieId: Long, @Query("page") page: Int): Observable<Review.Response>
+  fun reviews(@Path("id") movieId: Int, @Query("page") page: Int): Observable<Review.Response>
 }
