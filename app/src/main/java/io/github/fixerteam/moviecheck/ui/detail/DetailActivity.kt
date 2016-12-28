@@ -4,6 +4,7 @@ import android.os.Bundle
 import io.github.fixerteam.moviecheck.App.Companion.appComponent
 import io.github.fixerteam.moviecheck.R
 import io.github.fixerteam.moviecheck.di.HasComponent
+import io.github.fixerteam.moviecheck.navigation.Navigator
 import io.github.fixerteam.moviecheck.ui.base.mvp.BaseActivity
 import io.github.fixerteam.moviecheck.ui.main.DaggerMainComponent
 import io.github.fixerteam.moviecheck.ui.main.MainComponent
@@ -14,9 +15,8 @@ class DetailActivity : BaseActivity(), HasComponent<MainComponent> {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    val movieId: Int = intent.getIntExtra(DetailFragment.MOVIE_ID, 277834)
-    val fragment = DetailFragment.newInstance(movieId)
-    supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
+    val movieId: Int = intent.getIntExtra(Navigator.MOVIE_ID_EXTRA, 277834)
+    Navigator.showMovieDetailFragment(this, movieId)
   }
 
   override fun component(): MainComponent? = DaggerMainComponent.builder()

@@ -83,12 +83,6 @@ class MoviesPresenter(private val interactor: MovieInteractor) : BasePresenter<M
     viewState.isLoading = false
   }
 
-  class ViewState {
-    var isLoading = false
-    var isLoadOnce = false
-    var isEmpty = false
-  }
-
   enum class TYPE_FILTER {
     POPULAR, LATEST, TOP_RATED
   }

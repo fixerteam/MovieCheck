@@ -11,12 +11,14 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     android:name=".App">
-    <activity android:name=".ui.detail.DetailActivity">
+    <activity android:name=".ui.main.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+
+    <activity android:name=".ui.detail.DetailActivity"/>
 
     <meta-data
       android:name="io.github.fixerteam.moviecheck.util.GlideConfig"

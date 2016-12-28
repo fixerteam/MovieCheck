@@ -23,7 +23,7 @@ class MovieFragment : ListFragment<Movie, MovieHolder>(), MoviesContract.View<Mo
 
   @Inject lateinit var presenter: MoviesPresenter
 
-  override fun getViewHolder(parent: ViewGroup) = MovieHolder(parent)
+  override fun getViewHolder(parent: ViewGroup) = MovieHolder(parent, { presenter.onMovieSelected(it) })
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)

@@ -1,5 +1,6 @@
 package io.github.fixerteam.moviecheck.ui.detail
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -10,8 +11,9 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import io.github.fixerteam.moviecheck.R
-import io.github.fixerteam.moviecheck.domain.pojo.Video
 import io.github.fixerteam.moviecheck.domain.pojo.Movie
+import io.github.fixerteam.moviecheck.domain.pojo.Video
+import io.github.fixerteam.moviecheck.navigation.Navigator.Companion.MOVIE_ID_EXTRA
 import io.github.fixerteam.moviecheck.ui.base.mvp.BaseFragment
 import io.github.fixerteam.moviecheck.ui.base.mvp.BasePresenter
 import io.github.fixerteam.moviecheck.ui.main.MainComponent
@@ -46,14 +48,15 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
   }
 
   companion object {
+
     val MOVIE_ID = "movie_id"
     fun newInstance(productId: Int) =
-        DetailFragment().apply { arguments = bundleOf(MOVIE_ID to productId) }
+        DetailFragment().apply { arguments = bundleOf(MOVIE_ID_EXTRA to productId) }
   }
-
   @Inject lateinit var presenter: DetailPresenter
 
   private lateinit var moviePoster: ImageView
+
   private lateinit var movieCover: ImageView
   private lateinit var posterPlayImage: ImageView
   private lateinit var movieTitle: TextView
@@ -63,7 +66,6 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
   private lateinit var favoriteButton: ImageButton
   private lateinit var videosGroup: ViewGroup
   private lateinit var coverContainer: FrameLayout
-
   override fun showDetail(movie: Movie) {
     moviePoster.loadUrl(movie.posterPath, R.color.movie_cover_placeholder)
     movieCover.loadUrl(movie.backdropPath, R.color.movie_cover_placeholder)
@@ -105,10 +107,17 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
   override fun getLayout(): View = DetailFragmentUi().createView(AnkoContext.create(context, this))
 
+  override fun context(): Context = context
+
   override fun injectDependencies() {
     activityComponent<MainComponent>()
         ?.plusDetailMoviesSubComponent(DetailModule())
         ?.inject(this)
+  }
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    retainInstance = true
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,7 +136,7 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
     presenter.attachView(this)
     presenter.onStart()
-    presenter.showDetail(arguments.getInt(MOVIE_ID))
+    presenter.showDetail(arguments.getInt(MOVIE_ID_EXTRA))
   }
 
   /**

@@ -10,17 +10,44 @@ import io.github.fixerteam.moviecheck.ui.detail.DetailContract.View
 
 class DetailPresenter(private val interactor: MovieInteractor) : BasePresenter<Movie, View<Movie>>(), Presenter {
 
+  val viewState: ViewState
+
+  init {
+    viewState = ViewState()
+  }
+
   private var mVideos: List<Video>? = null
+  private var mMovie: Movie? = null
   private var mTrailer: Video? = null
 
   override fun showDetail(movieId: Int) {
-    addSubscription(interactor.getMovie(movieId)
-        .doOnNext { loadVideos(movieId) }
-        .subscribe({ doIfViewReady { showDetail(it) } }, { onError(it) }))
+    if (! viewState.isLoading && ! viewState.isLoadOnce) {
+      viewState.isLoading = true
+      addSubscription(interactor.getMovie(movieId)
+          .doOnNext { loadVideos(movieId) }
+          .subscribe({
+            doIfViewReady {
+              mMovie = it
+              showDetail(it)
+            }
+          }, { onError(it) }))
+    } else {
+      restoreState()
+    }
+
+  }
+
+  private fun restoreState() {
+    doIfViewReady {
+      mMovie?.apply { showDetail(this) }
+      mVideos?.apply { onVideosLoaded(this) }
+    }
   }
 
   override fun onStart() {
-    doIfViewReady { showLoading() }
+    if (! viewState.isLoadOnce || viewState.isLoading) {
+      doIfViewReady { showLoading() }
+    }
   }
 
   private fun onError(error: Throwable) = doIfViewReady {
@@ -30,6 +57,7 @@ class DetailPresenter(private val interactor: MovieInteractor) : BasePresenter<M
 
   private fun loadVideos(movieId: Int) {
     addSubscription(interactor.getVideos(movieId).subscribe({ videos ->
+      mVideos = videos
       onVideosLoaded(videos)
     }, { throwable ->
       onVideosLoaded(null)
@@ -37,17 +65,15 @@ class DetailPresenter(private val interactor: MovieInteractor) : BasePresenter<M
   }
 
   private fun onVideosLoaded(videos: List<Video>?) {
-    mVideos = videos
-
     // Remove all existing videos (everything but first two children)
     doIfViewReady {
       removeVideos()
       var hasVideos = false
 
-      if (mVideos != null && mVideos!!.isNotEmpty()) {
+      if (mVideos != null && mVideos !!.isNotEmpty()) {
 
         // looking for trailer
-        for (video in mVideos!!) {
+        for (video in mVideos !!) {
           if (video.type.equals(Video.TYPE_TRAILER)) {
             Log.d("DETAIL", "Found trailer!")
             mTrailer = video
@@ -57,12 +83,13 @@ class DetailPresenter(private val interactor: MovieInteractor) : BasePresenter<M
         }
 
         // add all videos
-        for (video in videos!!) {
+        for (video in videos !!) {
           addVideo(video)
           hasVideos = true
         }
       }
-
+      viewState.isLoadOnce = true
+      viewState.isLoading = false
       setVisibility(mTrailer != null, hasVideos)
     }
   }
