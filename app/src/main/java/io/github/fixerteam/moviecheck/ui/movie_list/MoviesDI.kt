@@ -1,4 +1,4 @@
-package io.github.fixerteam.moviecheck.ui.popular
+package io.github.fixerteam.moviecheck.ui.movie_list
 
 import dagger.Module
 import dagger.Provides
@@ -10,7 +10,7 @@ import io.github.fixerteam.moviecheck.ui.main.MainScope
 @Subcomponent(modules = arrayOf(PopularMoviesModule::class))
 interface PopularMoviesSubComponent {
 
-  fun inject(popularFragment: PopularFragment)
+  fun inject(movieFragment: MovieFragment)
 }
 
 @Module
@@ -18,5 +18,5 @@ class PopularMoviesModule {
 
   @MainScope
   @Provides
-  fun popularMoviesPresenter(interactor: MovieInteractor) = PopularPresenter(interactor)
+  fun popularMoviesPresenter(interactor: MovieInteractor) = MoviesPresenter(interactor)
 }

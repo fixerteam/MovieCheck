@@ -1,5 +1,6 @@
 <resources xmlns:xliff="http://schemas.android.com/tools">
   <string name="app_name">MovieCheck</string>
+
   <string name="placeholder_movie_plot">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt nisi ante, vel tincidunt dui iaculis a. Pellentesque vel urna lorem. Integer sed commodo justo, vel faucibus ex. Quisque eu posuere metus, id mollis arcu. Mauris gravida elementum ipsum eget finibus. Mauris cursus mauris ex. Nam sagittis efficitur nulla, ut placerat enim gravida quis. Pellentesque imperdiet ipsum id lacinia gravida. Vestibulum iaculis congue lacus. Curabitur convallis nisl auctor, aliquet tellus sed, vulputate lectus. Vivamus mi nisi, sollicitudin tempor tristique sit amet, sollicitudin a nulla. Morbi gravida ac ex a vestibulum.</string>
   <!-- Movie details -->
   <string name="movie_details_rating">Average rating: %1$s</string>
@@ -21,4 +22,9 @@
   <string name="title_share_trailer">Share hasTrailer</string>
   <string name="message_movie_favored">Saved to favorites.</string>
   <string name="sync_account_type">popularmovies.ewintory.com</string>
+
+  <string name="text_popular">Popular</string>
+  <string name="text_last">Last</string>
+  <string name="text_top_rated">Top rated</string>
+
 </resources>
