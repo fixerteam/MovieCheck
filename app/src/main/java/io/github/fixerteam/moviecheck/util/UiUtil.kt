@@ -23,3 +23,12 @@ fun ViewGroup.inflate(@LayoutRes layoutId: Int): View =
 fun ImageView.loadUrl(url: String?) {
   Glide.with(context).load("$url").into(this)
 }
+
+fun ImageView.loadUrl(url: String?, placeholderColor: Int) {
+  Glide.with(context)
+      .load("$url")
+      .placeholder(placeholderColor)
+      .centerCrop()
+      .crossFade()
+      .into(this)
+}
