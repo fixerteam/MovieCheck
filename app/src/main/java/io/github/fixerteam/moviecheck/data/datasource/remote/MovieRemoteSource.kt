@@ -7,6 +7,11 @@ import rx.Observable
 
 class MovieRemoteSource(private val api: Api) : MovieDataSource {
 
+  override fun getMovie(movieId: Int): Observable<Movie> {
+    //todo implement getMovie function!
+    throw UnsupportedOperationException("not implemented")
+  }
+
   override fun getMoviesByType(movieType: MovieType): Observable<List<Movie>> =
       api.discoverMovies(movieType.name.toLowerCase()).map { it?.results ?: emptyList() }
 

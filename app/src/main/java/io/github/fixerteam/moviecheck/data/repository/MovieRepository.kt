@@ -17,4 +17,6 @@ class MovieRepository(
           .onErrorResumeNext {
             localSource.getMoviesByType(movieType)
           }
+
+  fun getMovie(movieId: Int): Observable<Movie> = localSource.getMovie(movieId)
 }

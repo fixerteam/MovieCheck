@@ -9,4 +9,6 @@ interface MovieDataSource {
   fun getMoviesByType(movieType: MovieType): Observable<List<Movie>>
 
   fun saveMoviesByType(movieType: MovieType, items: List<Movie>)
+
+  fun getMovie(movieId: Int) : Observable<Movie>
 }

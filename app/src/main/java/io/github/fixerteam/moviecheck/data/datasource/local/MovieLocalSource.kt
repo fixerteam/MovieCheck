@@ -9,10 +9,11 @@ import rx.Observable
 import java.util.*
 
 class MovieLocalSource(private val db: Realm) : MovieDataSource {
+
   override fun getMoviesByType(movieType: MovieType): Observable<List<Movie>> {
     val realm = Realm.getDefaultInstance()
     val movies: MutableList<Movie> = ArrayList()
-    val findAll = realm.where(RealmMovie::class.java).findAll().forEach { movies.add(Movie(it)) }
+    realm.where(RealmMovie::class.java).findAll().forEach { movies.add(Movie(it)) }
 
     return Observable.just(movies)
   }
@@ -33,5 +34,11 @@ class MovieLocalSource(private val db: Realm) : MovieDataSource {
     }
 
     realm.commitTransaction()
+  }
+
+  override fun getMovie(movieId: Int) : Observable<Movie> {
+    val realm = Realm.getDefaultInstance()
+//    return Single.just(Movie(realm.where(RealmMovie::class.java).equalTo("id", movieId).findFirst()))
+    return Observable.just(Movie(realm.where(RealmMovie::class.java).findFirst())) // return first saved movie
   }
 }
