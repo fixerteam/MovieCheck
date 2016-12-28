@@ -62,6 +62,11 @@ abstract class ListFragment<in T, out VH : RecyclerHolder<T>> : BaseFragment(), 
     messageLabel.hide()
   }
 
+  fun onRestoreStateFragment() {
+    list.show()
+    list.adapter = adapter
+  }
+
   override fun showError(message: String) {
     list.hide()
     messageLabel.show()

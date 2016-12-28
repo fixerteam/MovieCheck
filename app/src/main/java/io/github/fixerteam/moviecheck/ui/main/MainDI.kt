@@ -3,8 +3,8 @@ package io.github.fixerteam.moviecheck.ui.main
 import dagger.Component
 import dagger.Module
 import io.github.fixerteam.moviecheck.di.AppComponent
-import io.github.fixerteam.moviecheck.ui.popular.PopularMoviesModule
-import io.github.fixerteam.moviecheck.ui.popular.PopularMoviesSubComponent
+import io.github.fixerteam.moviecheck.ui.movie_list.PopularMoviesModule
+import io.github.fixerteam.moviecheck.ui.movie_list.PopularMoviesSubComponent
 import javax.inject.Scope
 
 @MainScope

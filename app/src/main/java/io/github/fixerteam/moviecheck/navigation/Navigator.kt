@@ -5,16 +5,17 @@ import android.support.v4.app.FragmentManager
 import io.github.fixerteam.moviecheck.R
 import io.github.fixerteam.moviecheck.ui.base.mvp.BaseFragment
 import io.github.fixerteam.moviecheck.ui.main.MainActivity
-import io.github.fixerteam.moviecheck.ui.popular.PopularFragment
+import org.jetbrains.anko.startActivity
 
 class Navigator {
   companion object {
 
-    val CURRENT_FRAGMENT = "currentFragment"
+    const val MOVIE_ID_EXTRA = "movie_id_extra"
+    const val CURRENT_FRAGMENT = "currentFragment"
 
-    fun showPopularVideo(context: Context) {
+    fun  showMovieDetail(context: Context?, idMovie: Int) {
       if (context is MainActivity) {
-        showFragment(context, PopularFragment.newInstance())
+        context.startActivity<MainActivity>(MOVIE_ID_EXTRA to idMovie)
       }
     }
 
