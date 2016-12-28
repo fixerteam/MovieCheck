@@ -19,12 +19,9 @@ class MovieLocalSource(private val db: Realm) : MovieDataSource {
   }
 
   override fun saveMoviesByType(movieType: MovieType, items: List<Movie>) {
-
     val realm = Realm.getDefaultInstance()
     realm.beginTransaction()
-
     items.forEach {
-
       var realmMovie = realm.where(RealmMovie::class.java).equalTo("id", it.id).findFirst()
       if (realmMovie == null) {
         realmMovie = realm.createObject(RealmMovie::class.java, it.id)
@@ -32,13 +29,11 @@ class MovieLocalSource(private val db: Realm) : MovieDataSource {
       realmMovie.setFieldsFrom(it)
       realmMovie.type = movieType.toString().toLowerCase()
     }
-
     realm.commitTransaction()
   }
 
-  override fun getMovie(movieId: Int) : Observable<Movie> {
-    val realm = Realm.getDefaultInstance()
-//    return Single.just(Movie(realm.where(RealmMovie::class.java).equalTo("id", movieId).findFirst()))
-    return Observable.just(Movie(realm.where(RealmMovie::class.java).findFirst())) // return first saved movie
+  override fun getMovie(movieId: Int): Observable<Movie> {
+    val realmMovie = Realm.getDefaultInstance().where(RealmMovie::class.java).equalTo("id", movieId).findFirst()
+    return Observable.just(Movie(realmMovie))
   }
 }

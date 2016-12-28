@@ -3,7 +3,6 @@ package io.github.fixerteam.moviecheck.ui.detail
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,6 +16,14 @@ import org.jetbrains.anko.*
 import javax.inject.Inject
 
 class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
+
+  companion object {
+    val MOVIE_ID = "movie_id"
+    fun newInstance(productId: Int) =
+        DetailFragment().apply { arguments = bundleOf(MOVIE_ID to productId) }
+  }
+
+  @Inject lateinit var presenter: DetailPresenter
 
   private lateinit var moviePoster: ImageView
   private lateinit var movieCover: ImageView
@@ -35,8 +42,6 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
     movieOverview.text = movie.overview
     favoriteButton.isSelected = movie.favored
   }
-
-  @Inject lateinit var presenter: DetailPresenter
 
   override fun getPresenter(): BasePresenter<Movie, DetailContract.View<Movie>> = presenter
 
@@ -88,18 +93,12 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
     presenter.attachView(this)
     presenter.onStart()
-    presenter.showDetail(385)
+    presenter.showDetail(arguments.getInt(MOVIE_ID))
   }
 
   class DetailFragmentUi : AnkoComponent<Fragment> {
     override fun createView(ui: AnkoContext<Fragment>) = with(ui) {
-      verticalLayout {
-        lparams {
-          width = ViewGroup.LayoutParams.MATCH_PARENT
-          height = ViewGroup.LayoutParams.MATCH_PARENT
-        }
-        include<View>(R.layout.detail_layout).lparams(width = matchParent, height = matchParent)
-      }
+      include<View>(R.layout.detail_layout)
     }
   }
 }

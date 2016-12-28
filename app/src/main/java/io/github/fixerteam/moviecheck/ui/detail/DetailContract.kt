@@ -8,7 +8,7 @@ interface DetailContract {
 
   interface Presenter {
     fun onStart()
-    fun showDetail(movie: Movie)
+    fun showDetail(movieId: Int)
   }
 
   interface View<in T> : BaseView<T> {

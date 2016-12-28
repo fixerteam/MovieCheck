@@ -7,13 +7,8 @@ import io.github.fixerteam.moviecheck.ui.detail.DetailContract.Presenter
 import io.github.fixerteam.moviecheck.ui.detail.DetailContract.View
 
 class DetailPresenter(private val interactor: MovieInteractor) : BasePresenter<Movie, View<Movie>>(), Presenter {
-  override fun showDetail(movie: Movie) {
-    doIfViewReady {
-      this.showDetail(movie)
-    }
-  }
 
-  fun showDetail(movieId: Int) {
+  override fun showDetail(movieId: Int) {
     addSubscription(interactor.getMovie(movieId)
         .subscribe({ doIfViewReady { showDetail(it) } }, { onError(it) }))
   }
