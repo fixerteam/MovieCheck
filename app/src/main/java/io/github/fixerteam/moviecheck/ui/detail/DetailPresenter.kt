@@ -7,11 +7,19 @@ import io.github.fixerteam.moviecheck.ui.detail.DetailContract.Presenter
 import io.github.fixerteam.moviecheck.ui.detail.DetailContract.View
 
 class DetailPresenter(private val interactor: MovieInteractor) : BasePresenter<Movie, View<Movie>>(), Presenter {
+  override fun showDetail(movie: Movie) {
+    doIfViewReady {
+      this.showDetail(movie)
+    }
+  }
+
+  fun showDetail(movieId: Int) {
+    addSubscription(interactor.getMovie(movieId)
+        .subscribe({ doIfViewReady { showDetail(it) } }, { onError(it) }))
+  }
 
   override fun onStart() {
     doIfViewReady { showLoading() }
-//    addSubscription(interactor.getPopular()
-//        .subscribe({ onMoviesLoaded(it) }, { onError(it) }))
   }
 
   private fun onError(error: Throwable) = doIfViewReady {
@@ -19,12 +27,4 @@ class DetailPresenter(private val interactor: MovieInteractor) : BasePresenter<M
     showError(error.message ?: "")
   }
 
-  private fun onMoviesLoaded(movies: List<Movie>) = doIfViewReady {
-    hideLoading()
-    if (movies.isEmpty()) {
-      showEmpty("Content empty")
-    } else {
-      showContent(movies)
-    }
-  }
 }
