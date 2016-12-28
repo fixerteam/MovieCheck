@@ -1,4 +1,4 @@
-package io.github.fixerteam.moviecheck.ui.popular
+package io.github.fixerteam.moviecheck.ui.movie_list
 
 import android.view.ViewGroup
 import android.widget.ImageView
