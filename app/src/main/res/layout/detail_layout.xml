@@ -35,6 +35,7 @@
       <ImageView
           android:id="@+id/movie_poster_play"
           style="@style/MovieDetailPlayImage"
+          android:layout_gravity="center"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:contentDescription="@string/movie_details_trailer_desc"

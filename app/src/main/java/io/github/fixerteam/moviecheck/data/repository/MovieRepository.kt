@@ -3,6 +3,7 @@ package io.github.fixerteam.moviecheck.data.repository
 import io.github.fixerteam.moviecheck.data.datasource.MovieDataSource
 import io.github.fixerteam.moviecheck.data.datasource.local.local_model.MovieType
 import io.github.fixerteam.moviecheck.domain.pojo.Movie
+import io.github.fixerteam.moviecheck.domain.pojo.Video
 import rx.Observable
 
 class MovieRepository(
@@ -19,4 +20,6 @@ class MovieRepository(
           }
 
   fun getMovie(movieId: Int): Observable<Movie> = localSource.getMovie(movieId)
+
+  fun getVideos(movieId: Int): Observable<List<Video>> = remoteSource.getVideos(movieId)
 }
