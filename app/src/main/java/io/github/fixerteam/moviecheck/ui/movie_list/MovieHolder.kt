@@ -1,4 +1,4 @@
-package io.github.fixerteam.moviecheck.ui.popular
+package io.github.fixerteam.moviecheck.ui.movie_list
 
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -9,7 +9,7 @@ import io.github.fixerteam.moviecheck.ui.base.adapter.RecyclerHolder
 import io.github.fixerteam.moviecheck.util.loadUrl
 import org.jetbrains.anko.*
 
-class MovieHolder(parent: ViewGroup) : RecyclerHolder<Movie>(MovieViewItem().createView(AnkoContext.Companion.create(parent.context, parent))) {
+class MovieHolder(parent: ViewGroup, private val listener: (movieId: Movie) -> Unit) : RecyclerHolder<Movie>(MovieViewItem().createView(AnkoContext.Companion.create(parent.context, parent))) {
 
   private val label = itemView.find<TextView>(R.id.label)
   private val image = itemView.find<ImageView>(R.id.image)
@@ -17,6 +17,7 @@ class MovieHolder(parent: ViewGroup) : RecyclerHolder<Movie>(MovieViewItem().cre
   override fun bind(item: Movie) {
     label.text = item.overview
     image.loadUrl(item.posterPath)
+    itemView.onClick { listener.invoke(item) }
   }
 }
 

@@ -1,5 +1,7 @@
 package io.github.fixerteam.moviecheck.ui.base.mvp
 
+import android.content.Context
+
 interface BaseView<in T> {
 
   fun isReady(): Boolean
@@ -11,6 +13,8 @@ interface BaseView<in T> {
   fun showContent(content: List<T>)
 
   fun showError(message: String)
+
+  fun context(): Context
 
   fun hideLoading()
 }

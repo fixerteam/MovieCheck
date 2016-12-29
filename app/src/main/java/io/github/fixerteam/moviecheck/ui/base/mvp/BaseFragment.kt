@@ -20,6 +20,14 @@ abstract class BaseFragment : Fragment() {
 
   override fun onDetach() {
     super.onDetach()
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
     getPresenter()?.detachView()
   }
 

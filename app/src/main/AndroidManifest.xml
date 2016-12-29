@@ -18,6 +18,8 @@
       </intent-filter>
     </activity>
 
+    <activity android:name=".ui.detail.DetailActivity"/>
+
     <meta-data
       android:name="io.github.fixerteam.moviecheck.util.GlideConfig"
       android:value="GlideModule" />

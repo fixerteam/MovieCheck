@@ -29,4 +29,10 @@ abstract class BasePresenter<in T, V : BaseView<T>> {
   fun addSubscription(subscription: Subscription) {
     subscriptions.add(subscription)
   }
+
+  class ViewState {
+    var isLoading = false
+    var isLoadOnce = false
+    var isEmpty = false
+  }
 }
