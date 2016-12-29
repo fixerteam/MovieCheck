@@ -7,6 +7,7 @@ import io.github.fixerteam.moviecheck.domain.pojo.Movie
 import io.github.fixerteam.moviecheck.domain.pojo.Video
 import io.realm.Realm
 import rx.Observable
+import rx.Observable.fromCallable
 
 /**
  * Локальный источник данных.
@@ -22,7 +23,7 @@ class MovieLocalSource() : MovieDataSource {
   }
 
   override fun getMoviesByType(movieType: MovieType): Observable<List<Movie>> =
-      Observable.fromCallable {
+      fromCallable {
         Realm.getDefaultInstance()
             .where(RealmMovie::class.java)
             .equalTo("type", movieType.name)
@@ -43,10 +44,13 @@ class MovieLocalSource() : MovieDataSource {
     }
   }
 
-  override fun getMovie(movieId: Int): Observable<Movie> {
-    val realmMovie = Realm.getDefaultInstance().where(RealmMovie::class.java).equalTo("id", movieId).findFirst()
-    return Observable.just(Movie(realmMovie))
-  }
+  override fun getMovie(movieId: Int): Observable<Movie> =
+      fromCallable {
+        Movie(Realm.getDefaultInstance()
+            .where(RealmMovie::class.java)
+            .equalTo("id", movieId)
+            .findFirst())
+      }
 }
 
 inline fun Realm.inTransaction(func: (realm: Realm) -> Unit) {

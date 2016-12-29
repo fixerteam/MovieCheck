@@ -16,7 +16,7 @@ interface DetailContract {
   interface View<in T> : BaseView<T> {
     fun getPresenter() : BasePresenter<Movie, View<Movie>>
     fun showDetail(movie: Movie)
-    fun removeVideos()
+    fun clearTrailersView()
     fun setTrailer(trailer: Video)
     fun addVideo(video: Video)
     fun setVisibility(hasTrailer: Boolean, hasVideos: Boolean)

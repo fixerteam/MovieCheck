@@ -17,8 +17,7 @@ import java.util.concurrent.TimeUnit
 class MovieRemoteSource(private val api: Api) : MovieDataSource {
 
   override fun getMovie(movieId: Int): Observable<Movie> {
-    //todo implement getMovie function!
-    throw UnsupportedOperationException("not implemented")
+    TODO("implement getMovie function!")
   }
 
   override fun getMoviesByType(movieType: MovieType): Observable<List<Movie>> =

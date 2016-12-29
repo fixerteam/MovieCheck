@@ -1,6 +1,8 @@
 package io.github.fixerteam.moviecheck.util
 
 import android.support.annotation.LayoutRes
+import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -31,4 +33,10 @@ fun ImageView.loadUrl(url: String?, placeholderColor: Int) {
       .centerCrop()
       .crossFade()
       .into(this)
+}
+
+fun Fragment.snackbar(message: String) {
+  view?.apply {
+    Snackbar.make(this, message, Snackbar.LENGTH_INDEFINITE).show()
+  }
 }

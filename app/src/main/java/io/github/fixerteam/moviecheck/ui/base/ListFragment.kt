@@ -5,7 +5,6 @@ import android.support.annotation.CallSuper
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -14,7 +13,6 @@ import io.github.fixerteam.moviecheck.R
 import io.github.fixerteam.moviecheck.ui.base.adapter.RecyclerAdapter
 import io.github.fixerteam.moviecheck.ui.base.adapter.RecyclerHolder
 import io.github.fixerteam.moviecheck.ui.base.mvp.BaseFragment
-import io.github.fixerteam.moviecheck.ui.base.ListView
 import io.github.fixerteam.moviecheck.util.hide
 import io.github.fixerteam.moviecheck.util.show
 import org.jetbrains.anko.*
@@ -82,6 +80,7 @@ class ListFragmentUi : AnkoComponent<Fragment> {
       recyclerView {
         id = R.id.list
         layoutManager = GridLayoutManager(context, 2)
+        setItemViewCacheSize(50)
         lparams {
           width = MATCH_PARENT
           height = MATCH_PARENT
@@ -89,7 +88,9 @@ class ListFragmentUi : AnkoComponent<Fragment> {
       }
       textView {
         id = R.id.message_label
-        gravity = Gravity.CENTER
+        lparams {
+          centerInParent()
+        }
       }
       include<ContentLoadingProgressBar>(R.layout.content_progress)
     }

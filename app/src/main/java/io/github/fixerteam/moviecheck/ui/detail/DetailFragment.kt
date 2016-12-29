@@ -1,10 +1,7 @@
 package io.github.fixerteam.moviecheck.ui.detail
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,51 +19,20 @@ import io.github.fixerteam.moviecheck.ui.base.mvp.BaseFragment
 import io.github.fixerteam.moviecheck.ui.base.mvp.BasePresenter
 import io.github.fixerteam.moviecheck.ui.main.MainComponent
 import io.github.fixerteam.moviecheck.ui.navigation.MOVIE_ID_EXTRA
+import io.github.fixerteam.moviecheck.ui.navigation.showYouTube
 import io.github.fixerteam.moviecheck.util.loadUrl
+import io.github.fixerteam.moviecheck.util.snackbar
 import org.jetbrains.anko.*
 import javax.inject.Inject
 
 class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
-  override fun setTrailer(trailer: Video) {
-    coverContainer.tag = trailer
-    coverContainer.setOnClickListener({ view -> presenter.playVideo(view.tag as Video) })
-  }
-
-  override fun setVisibility(hasTrailer: Boolean, hasVideos: Boolean) {
-//    showShareMenuItemDeferred(hasTrailer != null)
-    coverContainer.isClickable = hasTrailer
-    posterPlayImage.visibility = if (hasTrailer) android.view.View.VISIBLE else android.view.View.GONE
-    videosGroup.visibility = if (hasVideos) android.view.View.VISIBLE else android.view.View.GONE
-  }
-
-  override fun addVideo(video: Video) {
-    val inflater = LayoutInflater.from(activity)
-    val videoView = inflater.inflate(R.layout.item_video, videosGroup, false)
-    val videoNameView = videoView.findViewById(R.id.video_name) as TextView
-
-    videoNameView.text = "${video.site}: ${video.name}"
-    videoView.tag = video
-        videoView.setOnClickListener({ v -> presenter.playVideo(v.tag as Video) })
-
-    videosGroup.addView(videoView)
-  }
-
-  override fun playVideo(video: Video) {
-    if (video.site.equals(Video.SITE_YOUTUBE))
-      activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + video.key)))
-    else
-      Log.w("DETAIL","Unsupported video format")
-  }
-
   companion object {
     fun newInstance(productId: Int) =
         DetailFragment().apply { arguments = bundleOf(MOVIE_ID_EXTRA to productId) }
   }
-  @Inject lateinit var presenter: DetailPresenter
 
   private lateinit var moviePoster: ImageView
-
   private lateinit var progress: ContentLoadingProgressBar
   private lateinit var movieCover: ImageView
   private lateinit var posterPlayImage: ImageView
@@ -77,6 +43,8 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
   private lateinit var favoriteButton: ImageButton
   private lateinit var videosGroup: ViewGroup
   private lateinit var coverContainer: FrameLayout
+
+  @Inject lateinit var presenter: DetailPresenter
 
   override fun showDetail(movie: Movie) {
     hideLoading()
@@ -89,6 +57,38 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
     favoriteButton.isSelected = movie.favored
   }
 
+  override fun setTrailer(trailer: Video) {
+    coverContainer.tag = trailer
+    coverContainer.setOnClickListener({ view -> presenter.playVideo(view.tag as Video) })
+  }
+
+  override fun setVisibility(hasTrailer: Boolean, hasVideos: Boolean) {
+    //    showShareMenuItemDeferred(hasTrailer != null)
+    coverContainer.isClickable = hasTrailer
+    posterPlayImage.visibility = if (hasTrailer) android.view.View.VISIBLE else android.view.View.GONE
+    videosGroup.visibility = if (hasVideos) android.view.View.VISIBLE else android.view.View.GONE
+  }
+
+  override fun addVideo(video: Video) {
+    val inflater = LayoutInflater.from(activity)
+    val videoView = inflater.inflate(R.layout.item_video, videosGroup, false)
+    val videoNameView = videoView.findViewById(R.id.video_name) as TextView
+
+    videoNameView.text = "${video.site}: ${video.name}"
+    videoView.tag = video
+    videoView.setOnClickListener({ v -> presenter.playVideo(v.tag as Video) })
+
+    videosGroup.addView(videoView)
+  }
+
+  override fun playVideo(video: Video) {
+    if (video.site.equals(Video.SITE_YOUTUBE)) {
+      showYouTube(context(), video.key)
+    } else {
+      Log.w("DETAIL", "Unsupported video format")
+    }
+  }
+
   override fun getPresenter(): BasePresenter<Movie, DetailContract.View<Movie>> = presenter
 
   override fun isReady(): Boolean = isAdded
@@ -97,9 +97,7 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
   override fun hideLoading() = progress.hide()
 
-  override fun showError(message: String) {
-    Snackbar.make(movieTitle, message, Snackbar.LENGTH_INDEFINITE)
-  }
+  override fun showError(message: String) = snackbar(message)
 
   override fun getLayout(): View = DetailFragmentUi().createView(AnkoContext.create(context, this))
 
@@ -147,20 +145,18 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
   /**
    * Remove all existing videos (everything but first two children)
    */
-  override fun removeVideos() {
+  override fun clearTrailersView() {
     for (i in videosGroup.childCount - 1 downTo 2) {
       videosGroup.removeViewAt(i)
     }
   }
+}
 
-  class DetailFragmentUi : AnkoComponent<Fragment> {
-    override fun createView(ui: AnkoContext<Fragment>) = with(ui) {
-
-      relativeLayout {
-        include<View>(R.layout.detail_layout)
-        include<ContentLoadingProgressBar>(R.layout.content_progress)
-      }
-
+class DetailFragmentUi : AnkoComponent<Fragment> {
+  override fun createView(ui: AnkoContext<Fragment>) = with(ui) {
+    relativeLayout {
+      include<View>(R.layout.detail_layout)
+      include<ContentLoadingProgressBar>(R.layout.content_progress)
     }
   }
 }
