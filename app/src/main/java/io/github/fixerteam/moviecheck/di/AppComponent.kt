@@ -7,7 +7,7 @@ import io.github.fixerteam.moviecheck.util.GlideConfig
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(AppModule::class, NetworkModule::class, DbModule::class, DataModule::class, DomainModel::class))
+@Component(modules = arrayOf(AppModule::class, NetworkModule::class, DataModule::class, DomainModel::class))
 interface AppComponent {
 
   fun inject(config: GlideConfig)

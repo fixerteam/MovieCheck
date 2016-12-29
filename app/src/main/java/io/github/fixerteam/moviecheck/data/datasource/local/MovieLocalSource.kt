@@ -7,38 +7,53 @@ import io.github.fixerteam.moviecheck.domain.pojo.Movie
 import io.github.fixerteam.moviecheck.domain.pojo.Video
 import io.realm.Realm
 import rx.Observable
-import java.util.*
 
-class MovieLocalSource(private val db: Realm) : MovieDataSource {
+/**
+ * Локальный источник данных.
+ * Основная задача - кэшировать данные из удаленного источника и отдавать их,
+ * когда удаленный источник вернул ошибку (например отсутствие интернета).
+ * Если потребуется поменять ORM, все изменения останутся в пределах данного класса.
+ * Или же можно просто реализовать другой источник данных с нужной ORM и подложить в репозиторий через DI
+ */
+class MovieLocalSource() : MovieDataSource {
+
   override fun getVideos(movieId: Int): Observable<List<Video>> {
-    //todo implement getVideos function!
-    throw UnsupportedOperationException("not implemented")
+    TODO("implement getVideos function!")
   }
 
-  override fun getMoviesByType(movieType: MovieType): Observable<List<Movie>> {
-    val realm = Realm.getDefaultInstance()
-    val movies: MutableList<Movie> = ArrayList()
-    realm.where(RealmMovie::class.java).findAll().forEach { movies.add(Movie(it)) }
-
-    return Observable.just(movies)
-  }
+  override fun getMoviesByType(movieType: MovieType): Observable<List<Movie>> =
+      Observable.fromCallable {
+        Realm.getDefaultInstance()
+            .where(RealmMovie::class.java)
+            .equalTo("type", movieType.name)
+            .findAll()
+            .map(::Movie)
+      }
 
   override fun saveMoviesByType(movieType: MovieType, items: List<Movie>) {
-    val realm = Realm.getDefaultInstance()
-    realm.beginTransaction()
-    items.forEach {
-      var realmMovie = realm.where(RealmMovie::class.java).equalTo("id", it.id).findFirst()
-      if (realmMovie == null) {
-        realmMovie = realm.createObject(RealmMovie::class.java, it.id)
+    Realm.getDefaultInstance().inTransaction { realm ->
+      items.forEach {
+        var realmMovie = realm.where(RealmMovie::class.java).equalTo("id", it.id).findFirst()
+        if (realmMovie == null) {
+          realmMovie = realm.createObject(RealmMovie::class.java, it.id)
+        }
+        realmMovie.setFieldsFrom(it)
+        realmMovie.type = movieType.name
       }
-      realmMovie.setFieldsFrom(it)
-      realmMovie.type = movieType.toString().toLowerCase()
     }
-    realm.commitTransaction()
   }
 
-  override fun getMovie(movieId: Int): Observable<Movie> {
-    val realmMovie = Realm.getDefaultInstance().where(RealmMovie::class.java).equalTo("id", movieId).findFirst()
-    return Observable.just(Movie(realmMovie))
-  }
+  override fun getMovie(movieId: Int): Observable<Movie> =
+      Realm.getDefaultInstance()
+          .where(RealmMovie::class.java)
+          .equalTo("id", movieId)
+          .findFirst()
+          .asObservable<RealmMovie>()
+          .map(::Movie)
+}
+
+inline fun Realm.inTransaction(func: (realm: Realm) -> Unit) {
+  beginTransaction()
+  func.invoke(this)
+  commitTransaction()
 }

@@ -30,23 +30,13 @@ class MovieFragment : ListFragment<Movie, MovieHolder>(), MoviesContract.View<Mo
     retainInstance = true
   }
 
-  override fun onStop() {
-    super.onStop()
-  }
-
-  override fun onStart() {
-    super.onStart()
-  }
-
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     presenter.attachView(this)
     presenter.init(arguments)
   }
 
-  override fun onRestoreState() {
-    onRestoreStateFragment()
-  }
+  override fun onRestoreState() = onRestoreStateFragment()
 
   override fun context(): Context = context
 

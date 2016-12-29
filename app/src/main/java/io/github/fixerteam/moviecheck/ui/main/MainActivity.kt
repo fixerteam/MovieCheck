@@ -36,6 +36,7 @@ class MainActivity : BaseActivity(), HasComponent<MainComponent> {
 
   private fun initTabPager() {
     viewPager.adapter = pagerAdapter
+    viewPager.offscreenPageLimit = 2
     tabLayout.setupWithViewPager(viewPager)
   }
 

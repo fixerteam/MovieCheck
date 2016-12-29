@@ -7,7 +7,6 @@ import io.github.fixerteam.moviecheck.data.datasource.local.MovieLocalSource
 import io.github.fixerteam.moviecheck.data.datasource.remote.Api
 import io.github.fixerteam.moviecheck.data.datasource.remote.MovieRemoteSource
 import io.github.fixerteam.moviecheck.data.repository.MovieRepository
-import io.realm.Realm
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -17,7 +16,7 @@ class DataModule {
   @Singleton
   @Provides
   @Named("local")
-  fun provideLocalSource(db: Realm): MovieDataSource = MovieLocalSource(db)
+  fun provideLocalSource(): MovieDataSource = MovieLocalSource()
 
   @Singleton
   @Provides

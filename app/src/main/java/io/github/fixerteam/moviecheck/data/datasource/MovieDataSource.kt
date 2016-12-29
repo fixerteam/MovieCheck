@@ -5,6 +5,9 @@ import io.github.fixerteam.moviecheck.domain.pojo.Movie
 import io.github.fixerteam.moviecheck.domain.pojo.Video
 import rx.Observable
 
+/**
+ * Общий интерфейс для всех источников данных в приложении.
+ */
 interface MovieDataSource {
 
   fun getMoviesByType(movieType: MovieType): Observable<List<Movie>>

@@ -4,6 +4,10 @@ import rx.Subscription
 import rx.subscriptions.CompositeSubscription
 import kotlin.LazyThreadSafetyMode.NONE
 
+/**
+ * Презентеры управляют состоянием view и обрабатывают действия пользователей (клик, свайп).
+ * Все необходимые данные получают от интеракторов
+ */
 abstract class BasePresenter<in T, V : BaseView<T>> {
 
   private var view: V? = null

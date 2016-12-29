@@ -8,6 +8,12 @@ import rx.Observable
 import rx.android.schedulers.AndroidSchedulers.mainThread
 import rx.schedulers.Schedulers.io
 
+/**
+ * Интерактор является посредником между presentation слоем и репозиториями.
+ * Основная задача - инкапсулировать внутри себя бизнес-логику приложения. Например,
+ * собирать одну сущность из разных запросов, работать с аналитикой.
+ * Также инкапсулирует внутри себя всю работу с потоками (Thread).
+ */
 class MovieInteractor(private val movieRepository: MovieRepository) {
 
   fun getPopular() = inBackground { movieRepository.getMovieByType(MovieType.POPULAR) }
@@ -16,10 +22,10 @@ class MovieInteractor(private val movieRepository: MovieRepository) {
 
   fun getTopRated() = inBackground { movieRepository.getMovieByType(MovieType.TOP_RATED) }
 
-  private inline fun <T> inBackground(func: () -> Observable<T>): Observable<T> =
-      func.invoke().subscribeOn(io()).observeOn(mainThread())
-
   fun getMovie(movieId: Int): Observable<Movie> = inBackground { movieRepository.getMovie(movieId) }
 
   fun getVideos(movieId: Int): Observable<List<Video>> = inBackground { movieRepository.getVideos(movieId) }
+
+  private inline fun <T> inBackground(func: () -> Observable<T>): Observable<T> =
+      func.invoke().subscribeOn(io()).observeOn(mainThread())
 }

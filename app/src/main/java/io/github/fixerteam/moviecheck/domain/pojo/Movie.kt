@@ -57,7 +57,6 @@ class Movie() : Parcelable {
     this.genreIds = ArrayList()
     realmMovie.genreIds.toList().forEach { (genreIds as ArrayList<Int>).add(it.id) }
   }
-  
 
   constructor(source: Parcel) : this() {
     this.posterPath = source.readString()

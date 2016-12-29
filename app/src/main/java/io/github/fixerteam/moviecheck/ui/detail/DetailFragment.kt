@@ -16,10 +16,10 @@ import android.widget.TextView
 import io.github.fixerteam.moviecheck.R
 import io.github.fixerteam.moviecheck.domain.pojo.Movie
 import io.github.fixerteam.moviecheck.domain.pojo.Video
-import io.github.fixerteam.moviecheck.navigation.Navigator.Companion.MOVIE_ID_EXTRA
 import io.github.fixerteam.moviecheck.ui.base.mvp.BaseFragment
 import io.github.fixerteam.moviecheck.ui.base.mvp.BasePresenter
 import io.github.fixerteam.moviecheck.ui.main.MainComponent
+import io.github.fixerteam.moviecheck.ui.navigation.MOVIE_ID_EXTRA
 import io.github.fixerteam.moviecheck.util.loadUrl
 import org.jetbrains.anko.*
 import javax.inject.Inject
@@ -43,7 +43,7 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
     val videoView = inflater.inflate(R.layout.item_video, videosGroup, false)
     val videoNameView = videoView.findViewById(R.id.video_name) as TextView
 
-    videoNameView.text = video.site + ": " + video.name
+    videoNameView.text = "${video.site}: ${video.name}"
     videoView.tag = video
         videoView.setOnClickListener({ v -> presenter.playVideo(v.tag as Video) })
 
