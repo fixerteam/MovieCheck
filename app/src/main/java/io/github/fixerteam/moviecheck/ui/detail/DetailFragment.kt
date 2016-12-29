@@ -1,8 +1,11 @@
 package io.github.fixerteam.moviecheck.ui.detail
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +28,7 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
   override fun setTrailer(trailer: Video) {
     coverContainer.tag = trailer
-    //    coverContainer.setOnClickListener({ view -> mHelper.playVideo(view.tag as Video) })
+    coverContainer.setOnClickListener({ view -> presenter.playVideo(view.tag as Video) })
   }
 
   override fun setVisibility(hasTrailer: Boolean, hasVideos: Boolean) {
@@ -42,14 +45,19 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
     videoNameView.text = video.site + ": " + video.name
     videoView.tag = video
-    //    videoView.setOnClickListener({ v -> mHelper.playVideo(v.getTag() as Video) })
+        videoView.setOnClickListener({ v -> presenter.playVideo(v.tag as Video) })
 
     videosGroup.addView(videoView)
   }
 
-  companion object {
+  override fun playVideo(video: Video) {
+    if (video.site.equals(Video.SITE_YOUTUBE))
+      activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + video.key)))
+    else
+      Log.w("DETAIL","Unsupported video format")
+  }
 
-    val MOVIE_ID = "movie_id"
+  companion object {
     fun newInstance(productId: Int) =
         DetailFragment().apply { arguments = bundleOf(MOVIE_ID_EXTRA to productId) }
   }
