@@ -14,14 +14,14 @@ import io.github.fixerteam.moviecheck.R
 import io.github.fixerteam.moviecheck.ui.base.adapter.RecyclerAdapter
 import io.github.fixerteam.moviecheck.ui.base.adapter.RecyclerHolder
 import io.github.fixerteam.moviecheck.ui.base.mvp.BaseFragment
-import io.github.fixerteam.moviecheck.ui.base.mvp.BaseView
+import io.github.fixerteam.moviecheck.ui.base.ListView
 import io.github.fixerteam.moviecheck.util.hide
 import io.github.fixerteam.moviecheck.util.show
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import kotlin.LazyThreadSafetyMode.NONE
 
-abstract class ListFragment<in T, out VH : RecyclerHolder<T>> : BaseFragment(), BaseView<T> {
+abstract class ListFragment<in T, out VH : RecyclerHolder<T>> : BaseFragment(), ListView<T> {
 
   private lateinit var list: RecyclerView
   private lateinit var messageLabel: TextView

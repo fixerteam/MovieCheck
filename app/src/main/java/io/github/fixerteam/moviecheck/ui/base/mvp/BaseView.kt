@@ -12,10 +12,6 @@ interface BaseView<in T> {
 
   fun showLoading()
 
-  fun showEmpty(message: String)
-
-  fun showContent(content: List<T>)
-
   fun showError(message: String)
 
   fun context(): Context

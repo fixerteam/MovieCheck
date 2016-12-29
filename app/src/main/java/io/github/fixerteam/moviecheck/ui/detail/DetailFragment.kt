@@ -98,11 +98,6 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
     //    throw UnsupportedOperationException("not implemented")
   }
 
-  override fun showContent(content: List<Movie>) {
-    //todo implement showContent function!
-    //    throw UnsupportedOperationException("not implemented")
-  }
-
   override fun showError(message: String) {
     //todo implement showError function!
     //    throw UnsupportedOperationException("not implemented")
