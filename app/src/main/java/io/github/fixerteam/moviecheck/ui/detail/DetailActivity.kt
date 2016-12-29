@@ -14,9 +14,10 @@ class DetailActivity : BaseActivity(), HasComponent<MainComponent> {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-
-    val movieId: Int = intent.getIntExtra(Navigator.MOVIE_ID_EXTRA, 277834)
-    Navigator.showMovieDetailFragment(this, movieId)
+    if (savedInstanceState == null) {
+      val movieId: Int = intent.getIntExtra(Navigator.MOVIE_ID_EXTRA, 277834)
+      Navigator.showMovieDetailFragment(this, movieId)
+    }
   }
 
   override fun component(): MainComponent? = DaggerMainComponent.builder()
