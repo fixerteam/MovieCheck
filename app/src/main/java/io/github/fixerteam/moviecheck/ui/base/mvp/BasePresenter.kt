@@ -34,6 +34,9 @@ abstract class BasePresenter<in T, V : BaseView<T>> {
     subscriptions.add(subscription)
   }
 
+  /**
+   * Класс для сохранения состояния отображения
+   */
   class ViewState {
     var isLoading = false
     var isLoadOnce = false

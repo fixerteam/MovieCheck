@@ -5,6 +5,7 @@ import io.github.fixerteam.moviecheck.data.datasource.local.local_model.MovieTyp
 import io.github.fixerteam.moviecheck.domain.MovieInteractor
 import io.github.fixerteam.moviecheck.domain.pojo.Movie
 import io.github.fixerteam.moviecheck.ui.base.mvp.BasePresenter
+import io.github.fixerteam.moviecheck.ui.main.MainActivity
 import io.github.fixerteam.moviecheck.ui.movie_list.MoviesContract.Presenter
 import io.github.fixerteam.moviecheck.ui.movie_list.MoviesContract.View
 import io.github.fixerteam.moviecheck.ui.navigation.showMovieDetail
@@ -31,12 +32,6 @@ class MoviesPresenter(private val interactor: MovieInteractor) : BasePresenter<M
     }
   }
 
-  override fun onSwipe() = loadData(true)
-
-  override fun onMovieSelected(movie: Movie) = doIfViewReady {
-    showMovieDetail(context(), movie.id)
-  }
-
   private fun restoreState() {
     if (viewState.isEmpty) {
       doIfViewReady { showEmpty("Content empty") }
@@ -54,6 +49,12 @@ class MoviesPresenter(private val interactor: MovieInteractor) : BasePresenter<M
         MovieType.TOP_RATED -> interactor.getTopRated()
       }.subscribe({ onMoviesLoaded(it) }, { onError(it) }))
     }
+  }
+
+  override fun onSwipe() = loadData(true)
+
+  override fun onMovieSelected(movie: Movie) = doIfViewReady {
+    (context() as MainActivity).onMovieSelected(movie)
   }
 
   private fun onError(error: Throwable) = doIfViewReady {

@@ -43,13 +43,10 @@ class MovieLocalSource() : MovieDataSource {
     }
   }
 
-  override fun getMovie(movieId: Int): Observable<Movie> =
-      Realm.getDefaultInstance()
-          .where(RealmMovie::class.java)
-          .equalTo("id", movieId)
-          .findFirst()
-          .asObservable<RealmMovie>()
-          .map(::Movie)
+  override fun getMovie(movieId: Int): Observable<Movie> {
+    val realmMovie = Realm.getDefaultInstance().where(RealmMovie::class.java).equalTo("id", movieId).findFirst()
+    return Observable.just(Movie(realmMovie))
+  }
 }
 
 inline fun Realm.inTransaction(func: (realm: Realm) -> Unit) {

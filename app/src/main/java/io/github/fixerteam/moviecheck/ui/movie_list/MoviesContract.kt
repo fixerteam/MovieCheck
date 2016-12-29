@@ -2,7 +2,7 @@ package io.github.fixerteam.moviecheck.ui.movie_list
 
 import android.os.Bundle
 import io.github.fixerteam.moviecheck.domain.pojo.Movie
-import io.github.fixerteam.moviecheck.ui.base.mvp.BaseView
+import io.github.fixerteam.moviecheck.ui.base.ListView
 
 interface MoviesContract {
 
@@ -12,7 +12,7 @@ interface MoviesContract {
     fun onMovieSelected(movie: Movie)
   }
 
-  interface View<in T> : BaseView<T> {
+  interface View<in T> : ListView<T> {
     fun onRestoreState()
   }
 }
