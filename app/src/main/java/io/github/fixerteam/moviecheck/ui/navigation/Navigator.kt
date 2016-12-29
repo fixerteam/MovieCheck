@@ -22,6 +22,12 @@ fun showMovieDetail(context: Context?, idMovie: Int) {
   context?.startActivity<DetailActivity>(MOVIE_ID_EXTRA to idMovie)
 }
 
+fun showMovieDetailTwoPaneFragment(context: Context?, idMovie: Int) {
+  if (context is BaseActivity) {
+    showFragment(context, DetailFragment.newInstance(idMovie), R.id.detail_view, false)
+  }
+}
+
 fun showMovieDetailFragment(context: Context?, idMovie: Int) {
   if (context is BaseActivity) {
     showFragment(context, DetailFragment.newInstance(idMovie), R.id.frame, false)

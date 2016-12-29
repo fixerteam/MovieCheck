@@ -105,6 +105,11 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
   override fun context(): Context = context
 
+  override fun onSaveInstanceState(outState: Bundle?) {
+    super.onSaveInstanceState(outState)
+    presenter.onSaveInstanceState(outState)
+  }
+
   override fun injectDependencies() {
     activityComponent<MainComponent>()
         ?.plusDetailMoviesSubComponent(DetailModule())
@@ -113,7 +118,6 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    retainInstance = true
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -132,8 +136,12 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
     progress = view.find<ContentLoadingProgressBar>(R.id.content_progress)
 
     presenter.attachView(this)
-    presenter.onStart()
-    presenter.showDetail(arguments.getInt(MOVIE_ID_EXTRA))
+    if (savedInstanceState == null) {
+      presenter.onStart()
+      presenter.showDetail(arguments.getInt(MOVIE_ID_EXTRA))
+    } else {
+      presenter.onRestoreSaveInstanceState(savedInstanceState)
+    }
   }
 
   /**

@@ -2,6 +2,7 @@ package io.github.fixerteam.moviecheck.ui.main
 
 import dagger.Component
 import dagger.Module
+import dagger.Provides
 import io.github.fixerteam.moviecheck.di.AppComponent
 import io.github.fixerteam.moviecheck.ui.detail.DetailModule
 import io.github.fixerteam.moviecheck.ui.detail.DetailSubComponent
@@ -20,7 +21,12 @@ interface MainComponent {
 }
 
 @Module
-class MainModule
+class MainModule {
+
+  @MainScope
+  @Provides
+  fun mainPresenter() = MainPresenter()
+}
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
