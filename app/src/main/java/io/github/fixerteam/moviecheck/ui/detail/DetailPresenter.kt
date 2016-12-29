@@ -10,6 +10,10 @@ import io.github.fixerteam.moviecheck.ui.detail.DetailContract.View
 
 class DetailPresenter(private val interactor: MovieInteractor) : BasePresenter<Movie, View<Movie>>(), Presenter {
 
+  override fun playVideo(video: Video) {
+    doIfViewReady { playVideo(video) }
+  }
+
   val viewState: ViewState
 
   init {
