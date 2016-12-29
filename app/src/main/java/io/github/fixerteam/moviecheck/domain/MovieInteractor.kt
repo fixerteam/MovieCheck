@@ -12,7 +12,7 @@ class MovieInteractor(private val movieRepository: MovieRepository) {
 
   fun getPopular() = inBackground { movieRepository.getMovieByType(MovieType.POPULAR) }
 
-  fun getLatest() = inBackground { movieRepository.getMovieByType(MovieType.LATEST) }
+  fun getUpcoming() = inBackground { movieRepository.getMovieByType(MovieType.UPCOMING) }
 
   fun getTopRated() = inBackground { movieRepository.getMovieByType(MovieType.TOP_RATED) }
 

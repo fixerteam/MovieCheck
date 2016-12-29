@@ -11,15 +11,11 @@ import io.github.fixerteam.moviecheck.ui.movie_list.MoviesContract.View
 
 class MoviesPresenter(private val interactor: MovieInteractor) : BasePresenter<Movie, View<Movie>>(), Presenter {
 
-  val viewState: ViewState
+  val viewState: ViewState = ViewState()
   var type: MovieType = MovieType.POPULAR
 
   companion object {
     val TYPE_FILTER_EXTRA = "type_filter_extra"
-  }
-
-  init {
-    viewState = ViewState()
   }
 
   override fun init(arguments: Bundle) {
@@ -50,8 +46,8 @@ class MoviesPresenter(private val interactor: MovieInteractor) : BasePresenter<M
         MovieType.POPULAR -> {
           interactor.getPopular()
         }
-        MovieType.LATEST -> {
-          interactor.getLatest()
+        MovieType.UPCOMING -> {
+          interactor.getUpcoming()
         }
         MovieType.TOP_RATED -> {
           interactor.getTopRated()
@@ -81,9 +77,5 @@ class MoviesPresenter(private val interactor: MovieInteractor) : BasePresenter<M
     }
     viewState.isLoadOnce = true
     viewState.isLoading = false
-  }
-
-  enum class TYPE_FILTER {
-    POPULAR, LATEST, TOP_RATED
   }
 }

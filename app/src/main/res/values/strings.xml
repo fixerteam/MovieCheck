@@ -24,7 +24,7 @@
   <string name="sync_account_type">popularmovies.ewintory.com</string>
 
   <string name="text_popular">Popular</string>
-  <string name="text_last">Last</string>
+  <string name="text_upcoming">Upcoming</string>
   <string name="text_top_rated">Top rated</string>
 
 </resources>

@@ -19,7 +19,7 @@ class MainActivity : BaseActivity(), HasComponent<MainComponent> {
   private val pagerAdapter by lazy {
     BaseTabAdapter(supportFragmentManager).apply {
       add(MovieFragment.newInstance(MovieType.POPULAR), getString(R.string.text_popular))
-      add(MovieFragment.newInstance(MovieType.LATEST), getString(R.string.text_last))
+      add(MovieFragment.newInstance(MovieType.UPCOMING), getString(R.string.text_upcoming))
       add(MovieFragment.newInstance(MovieType.TOP_RATED), getString(R.string.text_top_rated))
     }
   }
