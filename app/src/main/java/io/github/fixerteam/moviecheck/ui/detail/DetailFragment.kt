@@ -74,6 +74,7 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
   private lateinit var favoriteButton: ImageButton
   private lateinit var videosGroup: ViewGroup
   private lateinit var coverContainer: FrameLayout
+
   override fun showDetail(movie: Movie) {
     moviePoster.loadUrl(movie.posterPath, R.color.movie_cover_placeholder)
     movieCover.loadUrl(movie.backdropPath, R.color.movie_cover_placeholder)
@@ -117,6 +118,11 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
   override fun context(): Context = context
 
+  override fun onSaveInstanceState(outState: Bundle?) {
+    super.onSaveInstanceState(outState)
+    presenter.onSaveInstanceState(outState)
+  }
+
   override fun injectDependencies() {
     activityComponent<MainComponent>()
         ?.plusDetailMoviesSubComponent(DetailModule())
@@ -125,7 +131,6 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    retainInstance = true
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -143,15 +148,19 @@ class DetailFragment : BaseFragment(), DetailContract.View<Movie> {
     posterPlayImage = view.find<ImageView>(R.id.movie_poster_play)
 
     presenter.attachView(this)
-    presenter.onStart()
-    presenter.showDetail(arguments.getInt(MOVIE_ID_EXTRA))
+    if (savedInstanceState == null) {
+      presenter.onStart()
+      presenter.showDetail(arguments.getInt(MOVIE_ID_EXTRA))
+    } else {
+      presenter.onRestoreSaveInstanceState(savedInstanceState)
+    }
   }
 
   /**
    * Remove all existing videos (everything but first two children)
    */
   override fun removeVideos() {
-    for (i in videosGroup.getChildCount() - 1 downTo 2) {
+    for (i in videosGroup.childCount - 1 downTo 2) {
       videosGroup.removeViewAt(i)
     }
   }

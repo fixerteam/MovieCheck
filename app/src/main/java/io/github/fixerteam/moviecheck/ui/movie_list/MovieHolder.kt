@@ -7,25 +7,18 @@ import io.github.fixerteam.moviecheck.R
 import io.github.fixerteam.moviecheck.domain.pojo.Movie
 import io.github.fixerteam.moviecheck.ui.base.adapter.RecyclerHolder
 import io.github.fixerteam.moviecheck.util.loadUrl
-import org.jetbrains.anko.*
+import org.jetbrains.anko.find
+import org.jetbrains.anko.onClick
 
-class MovieHolder(parent: ViewGroup, private val listener: (movieId: Movie) -> Unit) : RecyclerHolder<Movie>(MovieViewItem().createView(AnkoContext.Companion.create(parent.context, parent))) {
+class MovieHolder(parent: ViewGroup, private val listener: (movieId: Movie) -> Unit) : RecyclerHolder<Movie>(parent,
+    R.layout.item_movie) {
 
   private val label = itemView.find<TextView>(R.id.label)
   private val image = itemView.find<ImageView>(R.id.image)
 
   override fun bind(item: Movie) {
-    label.text = item.overview
+    label.text = item.originalTitle
     image.loadUrl(item.posterPath)
     itemView.onClick { listener.invoke(item) }
-  }
-}
-
-class MovieViewItem : AnkoComponent<ViewGroup> {
-  override fun createView(ui: AnkoContext<ViewGroup>) = with(ui) {
-    verticalLayout {
-      imageView { id = R.id.image }
-      textView { id = R.id.label }
-    }
   }
 }

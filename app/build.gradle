@@ -42,6 +42,8 @@ dependencies {
   compile depends.ANDROID_APPCOMPAT_V7
   compile depends.ANDROID_RECYCLER_VIEW
   compile depends.ANDROID_DESIGN
+  compile depends.ANDROID_CARDVIEW
+
 
   compile depends.ANKO_SDK15
   compile depends.ANKO_SUPPORT_V4

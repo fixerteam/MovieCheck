@@ -4,22 +4,18 @@ import android.os.Bundle
 import io.github.fixerteam.moviecheck.data.datasource.local.local_model.MovieType
 import io.github.fixerteam.moviecheck.domain.MovieInteractor
 import io.github.fixerteam.moviecheck.domain.pojo.Movie
-import io.github.fixerteam.moviecheck.navigation.Navigator
 import io.github.fixerteam.moviecheck.ui.base.mvp.BasePresenter
+import io.github.fixerteam.moviecheck.ui.main.MainActivity
 import io.github.fixerteam.moviecheck.ui.movie_list.MoviesContract.Presenter
 import io.github.fixerteam.moviecheck.ui.movie_list.MoviesContract.View
 
 class MoviesPresenter(private val interactor: MovieInteractor) : BasePresenter<Movie, View<Movie>>(), Presenter {
 
-  val viewState: ViewState
+  val viewState: ViewState = ViewState()
   var type: MovieType = MovieType.POPULAR
 
   companion object {
     val TYPE_FILTER_EXTRA = "type_filter_extra"
-  }
-
-  init {
-    viewState = ViewState()
   }
 
   override fun init(arguments: Bundle) {
@@ -50,8 +46,8 @@ class MoviesPresenter(private val interactor: MovieInteractor) : BasePresenter<M
         MovieType.POPULAR -> {
           interactor.getPopular()
         }
-        MovieType.LATEST -> {
-          interactor.getLatest()
+        MovieType.UPCOMING -> {
+          interactor.getUpcoming()
         }
         MovieType.TOP_RATED -> {
           interactor.getTopRated()
@@ -63,7 +59,7 @@ class MoviesPresenter(private val interactor: MovieInteractor) : BasePresenter<M
   override fun onSwipe() = loadData(true)
 
   override fun onMovieSelected(movie: Movie) = doIfViewReady {
-    Navigator.showMovieDetail(context(), movie.id)
+    (context() as MainActivity).onMovieSelected(movie)
   }
 
   private fun onError(error: Throwable) = doIfViewReady {
@@ -81,9 +77,5 @@ class MoviesPresenter(private val interactor: MovieInteractor) : BasePresenter<M
     }
     viewState.isLoadOnce = true
     viewState.isLoading = false
-  }
-
-  enum class TYPE_FILTER {
-    POPULAR, LATEST, TOP_RATED
   }
 }

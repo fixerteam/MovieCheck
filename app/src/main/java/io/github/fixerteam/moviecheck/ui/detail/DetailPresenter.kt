@@ -1,5 +1,6 @@
 package io.github.fixerteam.moviecheck.ui.detail
 
+import android.os.Bundle
 import android.util.Log
 import io.github.fixerteam.moviecheck.domain.MovieInteractor
 import io.github.fixerteam.moviecheck.domain.pojo.Movie
@@ -7,6 +8,7 @@ import io.github.fixerteam.moviecheck.domain.pojo.Video
 import io.github.fixerteam.moviecheck.ui.base.mvp.BasePresenter
 import io.github.fixerteam.moviecheck.ui.detail.DetailContract.Presenter
 import io.github.fixerteam.moviecheck.ui.detail.DetailContract.View
+import java.util.*
 
 class DetailPresenter(private val interactor: MovieInteractor) : BasePresenter<Movie, View<Movie>>(), Presenter {
 
@@ -95,6 +97,22 @@ class DetailPresenter(private val interactor: MovieInteractor) : BasePresenter<M
       viewState.isLoadOnce = true
       viewState.isLoading = false
       setVisibility(mTrailer != null, hasVideos)
+    }
+  }
+
+  fun onSaveInstanceState(outState: Bundle?) {
+    mVideos?.apply { outState?.putParcelableArrayList("VIDEOS_LIST_EXTRA", ArrayList(mVideos)) }
+    mMovie?.apply { outState?.putParcelable("MOVIE_EXTRA", this) }
+    mTrailer?.apply { outState?.putParcelable("TRAILER_EXTRA", this) }
+  }
+
+  fun onRestoreSaveInstanceState(savedInstanceState: Bundle) {
+    mVideos = savedInstanceState.getParcelableArrayList<Video>("VIDEOS_LIST_EXTRA")
+    mMovie = savedInstanceState.getParcelable("MOVIE_EXTRA")
+    mTrailer = savedInstanceState.getParcelable("TRAILER_EXTRA")
+    doIfViewReady {
+      mMovie?.apply { showDetail(this) }
+      onVideosLoaded(mVideos)
     }
   }
 }

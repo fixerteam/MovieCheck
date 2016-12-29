@@ -11,6 +11,9 @@ import io.github.fixerteam.moviecheck.ui.detail.DetailFragment
 import io.github.fixerteam.moviecheck.ui.main.MainActivity
 import org.jetbrains.anko.startActivity
 
+/**
+ * Класс реализующий навигацию между экранами
+ */
 class Navigator {
   companion object {
 
@@ -29,6 +32,12 @@ class Navigator {
       }
     }
 
+    fun showMovieDetailTwoPaneFragment(context: Context?, idMovie: Int) {
+      if (context is BaseActivity) {
+        showFragment(context, DetailFragment.newInstance(idMovie), R.id.detail_view, false)
+      }
+    }
+
     private fun showFragment(activity: BaseActivity, fragment: BaseFragment, @LayoutRes layout: Int,
         needBack: Boolean = true) {
       val fm = activity.supportFragmentManager
@@ -38,7 +47,6 @@ class Navigator {
       val backStateName = fragment.javaClass.name
       val fragmentPopped = if (fm.backStackEntryCount != 0) fm.popBackStackImmediate(backStateName, 0) else false
 
-      if (! fragmentPopped && fm.findFragmentByTag(backStateName) == null) {
         if (needBack) {
           fm.beginTransaction()
               .replace(layout, fragment, backStateName)
@@ -51,7 +59,7 @@ class Navigator {
         }
 
         activity.intent.putExtra(CURRENT_FRAGMENT, backStateName)
-      }
+
       fm.executePendingTransactions()
     }
 
